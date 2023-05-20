@@ -1,0 +1,258 @@
+<!doctype html>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title> Accident Severity Prediction </title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<!-- <link rel="stylesheet" href="../static/style.css"> -->
+		<style>
+			h1 {
+			    text-align: center;
+			    color: #4CAF50;
+			}
+
+			input[type=text], select {
+			    width: 100%;
+			    padding: 12px 20px;
+			    margin: 8px 0;
+			    display: inline-block;
+			    border: 1px solid #ccc;
+			    border-radius: 4px;
+			    box-sizing: border-box;
+			    font-size: 20px;
+			}
+
+			/*input[type=submit] {
+			    width: 100%;
+			    background-color: #4CAF50;
+			    color: white;
+			    padding: 14px 20px;
+			    margin: 8px 0;
+			    border: none;
+			    border-radius: 4px;
+			    cursor: pointer;
+			}
+
+			input[type=submit]:hover {
+			    background-color: #45a049;
+			}*/
+
+			.box {
+			    width: 500px;
+			    margin-left: 450px;
+			    margin-top: 100px;
+			    border-radius: 35px;
+			    background-color: #f2f2f2;
+			    padding: 20px;
+			}
+
+			.button {
+			  display: inline-block;
+			  padding: 11px 25px;
+			  font-size: 24px;
+			  cursor: pointer;
+			  text-align: center;
+			  text-decoration: none;
+			  outline: none;
+			  color: #fff;
+			  background-color: #4CAF50;
+			  border: none;
+			  border-radius: 15px;
+			  box-shadow: 0 9px #999;
+			  position:relative;
+			  top:50%; 
+    		  left:20%;
+			  /*margin: 0 auto;*/
+			}
+
+			.button:hover {background-color: #3e8e41}
+
+			.button:active {
+			  background-color: #3e8e41;
+			  box-shadow: 0 5px #666;
+			  transform: translateY(4px);
+			}
+		</style>
+	</head>
+
+	<!-- <video playsinline autoplay muted loop id="bgvid">
+	    <source src="{{ url_for('static', filename='video/video.mp4') }}" type="video/mp4">
+	</video> -->
+
+	<body background="/background_image.png">
+		<div class="box">
+		    <form method="POST" role="form" action="/result">
+		      <h1>Accident Severity Prediction</h1>
+			  <p>
+			    <label>Junction Details</label>
+			<select name="junction_detail">
+			   <option value="1">Not at junction or within 20 metres</option>
+			   <option value="2">T or staggered junction</option>
+			   <option value="3">Crossroads</option>
+			   <option value="4">Roundabout</option>
+			   <option value="5">Private drive or entrance</option>
+			   <option value="6">Other junction</option>
+			   <option value="7">Slip road</option>
+			   <option value="8">More than 4 arms (not roundabout)</option>
+			   <option value="9">Mini-roundabout</option>
+			 </select>
+	         </p>
+			 <p>
+				<label>Road class</label>
+				 <select name="1st_road_class">
+				   <option value="2">Motorway</option>
+					 <option value="2">A(M)</option>
+				   <option value="3">A</option>
+				   <option value="4">B</option>
+				   <option value="5">C</option>
+				   <option value="6">Unclassified</option>
+				 </select>
+			 </p>
+
+		    <p>
+			<input type="text" name="age_of_vehicle" placeholder="age_of_vehicle" required="required" />
+			</p>
+		    <p>
+            <input type="text" name="age_of_driver" placeholder="age_of_driver" required="required" />
+			</p>
+			<p>
+				<label>Day of the week</label>
+			 <select name="day_of_week">
+			   <option value="1">Sunday</option>
+			   <option value="2">Monday</option>
+			   <option value="3">Tuesday</option>
+			   <option value="4">Wednesday</option>
+			   <option value="5">Thursday</option>
+			   <option value="6">Friday</option>
+			   <option value="7">Saturday</option>
+			 </select>
+	        </p>
+			<p>
+				<label>Speed Limit</label>
+				<!-- <input type="range" min="0" max="70" value="50" class="slider" name="Speed_Limit"> -->
+			 <select name="speed_limit">
+				 <option value="10.0">10.0</option>
+			   <option value="15.0">15.0</option>
+			   <option value="20.0">20.0</option>
+			   <option value="30.0">30.0</option>
+			   <option value="40.0">40.0</option>
+			   <option value="50.0">50.0</option>
+			   <option value="60.0">60.0</option>
+			   <option value="70.0">70.0</option>
+			 </select>
+	        </p>
+			<p>
+
+				<input type="text" name="engine_capacity_(cc)" placeholder="engine_capacity_(cc)" required="required" />
+			</p>
+			<p>
+				<label>Vehicle Type</label>
+			      <select name="vehicle_type">
+			      	<option value="1">Pedal cycle
+					</option>
+				    <option value="2">Motorcycle 50cc and under
+					</option>
+				    <option value="3">Motorcycle 125cc and under
+					</option>
+				    <option value="4">Motorcycle over 125cc and up to 500cc
+					</option>
+				    <option value="5">Motorcycle over 500cc
+					</option>
+				    <option value="6">Taxi/Private hire car
+					</option>
+				    <option value="7">Car
+					</option>
+				    <option value="8">Minibus (8 - 16 passenger seats)
+					</option>
+				    <option value="9">Bus or coach (17 or more pass seats)
+					</option>
+					<option value="9">Ridden horse
+					</option>
+					<option value="10">Agricultural vehicle
+					</option>
+					<option value="11">Tram
+					</option>
+					<option value="12">Van / Goods 3.5 tonnes mgw or under
+					</option>
+					<option value="13">Goods over 3.5t. and under 7.5t
+					</option>
+					<option value="14">Goods 7.5 tonnes mgw and over
+					</option>
+					<option value="15">Mobility scooter
+					</option>
+					<option value="16">Electric motorcycle
+					</option>
+					<option value="17">Other vehicle
+					</option>
+					<option value="18">Motorcycle - unknown cc
+					</option>
+					<option value="19">Goods vehicle - unknown weight
+
+					</option>
+					
+
+
+				  </select>
+			</p>
+			<p>
+				<label>Area</label>
+				<input type="radio"
+                       name="urban_or_rural_area"
+                       value="1" 
+                       checked /> Urban
+                <input type="radio"
+                       name="urban_or_rural_area"
+                       value="2" /> Rural
+			</p>
+			
+			<p>
+				<label>Road surface conditions</label>
+			 <select name="road_surface_conditions">
+				 <option value="1">Dry</option>
+			   <option value="2">Wet or damp</option>
+			   <option value="3">Frost or ice</option>
+			   <option value="4">Snow</option>
+			   <option value="5">Flood over 3cm. deep</option>
+			 </select>
+	        </p>
+
+
+
+
+
+           	  
+
+           	  
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			
+			
+
+			<p>
+				<label>Time</label>
+				<input type="text"
+                       name="time_range" placeholder="time" required="required"/>
+			</p>
+			
+		    <button class="button" type="submit" id="submit">Predict Accident Severity</button>
+		    </form>
+		</div>
+	</body>
+	
+</html>
